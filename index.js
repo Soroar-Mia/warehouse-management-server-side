@@ -41,6 +41,23 @@ async function run(){
             res.send(result);
         });
 
+        app.put('/item', async(req, res) =>{
+            const id = req?.query?.itemId;
+            const quantity = req.body.newQuantity;
+            console.log(quantity)
+            const filter = { _id: ObjectId(id) };
+            // this option instructs the method to create a document if no documents match the filter
+            const options = { upsert: true };
+            // create a document that sets the plot of the movie
+            const updateDoc = {
+              $set: {
+                quantity
+              },
+            };
+            const result = await serviceCollection.updateOne(filter, updateDoc, options);
+            res.send(result)
+        });
+
 //  Delet
 
         app.delete('/item/:id', async(req, res) =>{
